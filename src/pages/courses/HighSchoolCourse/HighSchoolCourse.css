@@ -1,0 +1,70 @@
+.high-school-course {
+  font-family: 'Comic Neue', sans-serif;
+  color: #fff;
+  background: linear-gradient(to bottom, #0d0d1f, #1a1a3a);
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.course-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.course-header h1 {
+  font-family: 'Orbitron', sans-serif;
+  color: #ffcc00;
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+}
+
+.course-header p {
+  font-size: 1.2rem;
+  color: #ffd633;
+}
+
+.course-topic {
+  background: rgba(255, 204, 0, 0.08);
+  border: 2px solid #ffcc00;
+  border-radius: 15px;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.course-topic h2 {
+  color: #ffcc00;
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+
+.course-topic p, .course-topic ul {
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.course-topic ul {
+  list-style: disc;
+  margin-left: 20px;
+}
+
+.course-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.next-button {
+  background-color: #ffcc00;
+  color: #1e1e2f;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.next-button:hover {
+  background-color: #ffd633;
+  transform: translateY(-2px);
+}

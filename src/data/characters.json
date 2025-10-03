@@ -1,0 +1,27 @@
+[
+  {
+    "id": "astronaut",
+    "name": "Alex the Astronaut",
+    "age": 35,
+    "job": "Astronaut on the ISS",
+    "intro": "Hi! I’m Alex. I live and work in space aboard the International Space Station!",
+    "impact": [
+      "Solar storms can give me extra radiation exposure.",
+      "Sometimes we have to take cover in shielded parts of the station.",
+      "But they also create amazing auroras that I can see from space!"
+    ],
+    "image": "/assets/astronaut.png"
+  },
+  {
+    "id": "photographer",
+    "name": "Maya the Photographer",
+    "age": 28,
+    "job": "Aurora Chaser",
+    "intro": "Hello! I travel around the world capturing the northern lights.",
+    "impact": [
+      "Solar flares can make the auroras brighter and more colorful.",
+      "But sometimes GPS signals get scrambled, making my trips harder."
+    ],
+    "image": "/assets/photographer.png"
+  }
+]
