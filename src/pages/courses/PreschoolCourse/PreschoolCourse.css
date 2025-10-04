@@ -1,65 +1,190 @@
+/* === Prevent double scrollbars === */
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* === Preschool Course Container === */
 .preschool-course {
   font-family: 'Comic Neue', sans-serif;
-  color: #fff;
-  background: linear-gradient(to bottom, #1e1e2f, #2e2e4e);
-  padding: 20px;
+  color: #f0f0f0;
+  background: linear-gradient(to bottom, #1a1a2e, #2b2b44);
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  overflow-x: hidden;
+  position: relative;
 }
 
-.course-header {
-  text-align: center;
-  margin-bottom: 30px;
+/* === Stars Layer (subtle, no scrollbar) === */
+.preschool-course::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  box-shadow:
+    50px 100px #fff2, 200px 400px #fff3,
+    300px 150px #fff2, 400px 300px #fff3,
+    500px 250px #fff2, 600px 400px #fff3,
+    700px 100px #fff2, 800px 300px #fff3;
+  animation: twinkle 15s linear infinite;
+  pointer-events: none;
+  z-index: 0;
 }
 
-.course-header h1 {
-  font-family: 'Orbitron', sans-serif;
-  color: #ffcc00;
-  font-size: 2.2rem;
-  margin-bottom: 10px;
+@keyframes twinkle {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
 }
 
-.course-header p {
-  font-size: 1.2rem;
-  color: #ffd633;
-}
-
-.course-topic {
-  background: rgba(255, 204, 0, 0.1);
-  border: 2px solid #ffcc00;
+/* === Navigation Bar === */
+.course-nav {
+  width: 100%;
+  background-color: rgba(40, 40, 70, 0.95);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
   border-radius: 15px;
-  padding: 15px;
-  margin-bottom: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  position: relative;
+  z-index: 1;
+}
+
+.course-nav h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  color: #ffd580;
+  text-shadow: 0 0 3px #ffd580;
+}
+
+.nav-btn {
+  margin-left: 1rem;
+  background: #06bfa0;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 0.5rem 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.nav-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 8px #06bfa0;
+}
+
+.logout {
+  background: #ff7a7a;
+}
+
+/* === Video Section === */
+.video-section {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 1;
+  position: relative;
+}
+
+.course-video {
+  border: 3px solid #ffd580;
+  border-radius: 15px;
+  box-shadow: 0 0 8px rgba(255, 213, 128, 0.4);
+}
+
+/* === Video Controls === */
+.video-controls {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.start-btn, .replay-btn {
+  background: #06bfa0;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 0.6rem 1.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.start-btn:hover, .replay-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 6px #06bfa0;
+}
+
+.stop-btn {
+  background: #ff7a7a;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 0.6rem 1.2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stop-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 6px #ff7a7a;
+}
+
+/* === Course Topics (soft glow) === */
+.course-topic {
+  max-width: 700px;
+  margin: 2rem;
+  padding: 1.5rem;
+  background: rgba(60, 60, 110, 0.9);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 213, 128, 0.5);
+  box-shadow: 0 0 15px rgba(255, 213, 128, 0.3);
+  position: relative;
+  z-index: 1;
 }
 
 .course-topic h2 {
-  color: #ffcc00;
+  font-family: 'Orbitron', sans-serif;
+  color: #ffd580;
   font-size: 1.5rem;
   margin-bottom: 8px;
+  text-shadow: 0 0 4px #ffd580;
 }
 
 .course-topic p {
   font-size: 1.1rem;
   line-height: 1.5;
+  color: #e0e0e0;
 }
 
+/* === Footer / Next Button === */
 .course-footer {
-  text-align: center;
-  margin-top: 20px;
+  margin-top: auto;
+  padding: 2rem;
 }
 
 .next-button {
-  background-color: #ffcc00;
-  color: #1e1e2f;
-  font-size: 1.2rem;
-  font-weight: bold;
-  padding: 12px 25px;
+  background: #06bfa0;
+  color: white;
   border: none;
-  border-radius: 12px;
+  padding: 0.8rem 1.8rem;
+  border-radius: 15px;
+  font-size: 1.1rem;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .next-button:hover {
-  background-color: #ffd633;
-  transform: translateY(-2px);
+  transform: scale(1.03);
+  box-shadow: 0 0 6px #06bfa0;
 }

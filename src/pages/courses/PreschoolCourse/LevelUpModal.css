@@ -1,0 +1,74 @@
+.levelup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(30,30,50,0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.levelup-modal {
+  background: #1e1e2f;
+  padding: 2rem;
+  border-radius: 20px;
+  color: #fff;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 0 20px rgba(255,204,0,0.5);
+}
+
+.levelup-modal h2 {
+  text-align: center;
+  color: #ffcc00;
+  margin-bottom: 1rem;
+}
+
+.question {
+  margin-bottom: 1rem;
+}
+
+.question p {
+  margin-bottom: 0.5rem;
+}
+
+.question label {
+  display: block;
+  margin-bottom: 0.3rem;
+  cursor: pointer;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+}
+
+.modal-buttons button {
+  padding: 0.8rem 1.5rem;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal-buttons button:first-child {
+  background: #06d6a0;
+  color: white;
+}
+
+.modal-buttons button:first-child:hover {
+  background: #04b383;
+}
+
+.modal-buttons button:last-child {
+  background: #ff595e;
+  color: white;
+}
+
+.modal-buttons button:last-child:hover {
+  background: #e04c52;
+}
