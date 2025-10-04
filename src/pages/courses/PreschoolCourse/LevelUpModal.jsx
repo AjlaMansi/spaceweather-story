@@ -1,4 +1,3 @@
-// LevelUpModal.jsx
 import React, { useState } from "react";
 import "./LevelUpModal.css";
 
@@ -8,17 +7,22 @@ const LevelUpModal = ({ onClose, onLevelUp }) => {
     q2: "",
     q3: "",
   });
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     setAnswers({ ...answers, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = () => {
-    // simple check: all correct
-    if (answers.q1 === "b" && answers.q2 === "a" && answers.q3 === "c") {
-      onLevelUp(); // navigate to ElementaryCourse
+    // Adjust the answers to your Middle School quiz
+    if (
+      answers.q1.toLowerCase() === "sun" &&
+      answers.q2.toLowerCase() === "auroras" &&
+      answers.q3.toLowerCase() === "cme"
+    ) {
+      onLevelUp();
     } else {
-      alert("Oops! Try again!");
+      setError("Oops! Some answers are not correct. Try again! 🌟");
     }
   };
 
@@ -26,30 +30,45 @@ const LevelUpModal = ({ onClose, onLevelUp }) => {
     <div className="levelup-overlay">
       <div className="levelup-modal">
         <h2>🎓 Level Up Test!</h2>
-        
+        <p>Answer these questions to advance to the next adventure! 🚀</p>
+
         <div className="question">
-          <p>1. What planet do we live on?</p>
-          <label><input type="radio" name="q1" value="a" onChange={handleChange}/> Mars</label>
-          <label><input type="radio" name="q1" value="b" onChange={handleChange}/> Earth</label>
-          <label><input type="radio" name="q1" value="c" onChange={handleChange}/> Jupiter</label>
+          <label>1️⃣ What star is the source of space weather?</label>
+          <input
+            type="text"
+            name="q1"
+            value={answers.q1}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="question">
-          <p>2. What is the Sun?</p>
-          <label><input type="radio" name="q2" value="a" onChange={handleChange}/> A star</label>
-          <label><input type="radio" name="q2" value="b" onChange={handleChange}/> A planet</label>
+          <label>2️⃣ What lights can we see in the sky when solar storms hit Earth?</label>
+          <input
+            type="text"
+            name="q2"
+            value={answers.q2}
+            onChange={handleChange}
+          />
         </div>
 
         <div className="question">
-          <p>3. What colors appear in the aurora?</p>
-          <label><input type="radio" name="q3" value="a" onChange={handleChange}/> Black</label>
-          <label><input type="radio" name="q3" value="b" onChange={handleChange}/> Grey</label>
-          <label><input type="radio" name="q3" value="c" onChange={handleChange}/> Green, Pink, Purple</label>
+          <label>3️⃣ What is a big storm from the Sun called?</label>
+          <input
+            type="text"
+            name="q3"
+            value={answers.q3}
+            onChange={handleChange}
+          />
         </div>
 
-        <div className="modal-buttons">
-          <button onClick={handleSubmit}>Submit</button>
-          <button onClick={onClose}>Close</button>
+        {error && <p className="error">{error}</p>}
+
+        <div className="levelup-buttons">
+          <button onClick={handleSubmit}>🚀 Submit</button>
+          <button onClick={onClose} className="close-btn">
+            ✖️ Close
+          </button>
         </div>
       </div>
     </div>

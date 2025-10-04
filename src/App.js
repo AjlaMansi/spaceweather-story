@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
+import Home from "./pages/Home/Home";
 import GuestCourse from "./pages/courses/GuestCourse/GuestCourse";
 import PreschoolCourse from "./pages/courses/PreschoolCourse/PreschoolCourse";
 import ElementaryCourse from "./pages/courses/ElementaryCourse/ElementaryCourse";
@@ -13,7 +14,7 @@ function App() {
   const handleLogout = () => setUser(null);
 
   const getCoursePage = () => {
-    if (!user) return <Navigate to="/login" />; // 🔹 redirect to login
+    if (!user) return <Navigate to="/login" />; 
     const age = Number(user.childAge);
     if (age >= 3 && age <= 5) return <PreschoolCourse onLogout={handleLogout} />;
     if (age >= 6 && age <= 11) return <ElementaryCourse onLogout={handleLogout} />;
@@ -24,6 +25,7 @@ function App() {
   return (
     <Router>
       <Routes>
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage onLogin={setUser} />} />
         <Route path="/" element={getCoursePage()} />
         <Route path="/guest" element={<GuestCourse />} />

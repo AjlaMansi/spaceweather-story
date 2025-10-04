@@ -9,10 +9,16 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleLogin = (userData) => {
-  console.log('Logged in user:', userData); // For now we log the data
+  console.log('Logged in user:', userData);
   setUser(userData);
-  navigate('/characters');
+
+  const age = Number(userData.childAge);
+  if (age >= 3 && age <= 5) navigate("/preschool");
+  else if (age >= 6 && age <= 11) navigate("/elementary");
+  else if (age >= 12 && age <= 15) navigate("/middle");
+  else navigate("/highschool");
 };
+
 
   return (
     <div className="home-page">
