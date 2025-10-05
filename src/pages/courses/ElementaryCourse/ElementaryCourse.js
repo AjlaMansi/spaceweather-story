@@ -1,18 +1,72 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import './ElementaryCourse.css';
-import LevelUpModal from "./LevelUpModal"; // import the modal
-
+import "./ElementaryCourse.css";
+import LevelUpModal from "./LevelUpModal";
 
 const ElementaryCourse = ({ onLogout }) => {
   const navigate = useNavigate();
-
   const [showLevelUp, setShowLevelUp] = useState(false);
 
   const handleLogout = () => {
-    if (onLogout) onLogout(); // clears user state
-    navigate("/login"); // go back to login page
+    if (onLogout) onLogout();
+    navigate("/login");
   };
+
+  // ✅ Inline CanvaEmbed component (no separate export)
+  const CanvaEmbed = () => (
+    <div style={{ maxWidth: 960, margin: "0 auto" }}>
+      <div
+        style={{
+          position: "relative",
+          width: "100%",
+          height: 0,
+          paddingTop: "56.25%", // 16:9 ratio
+          boxShadow: "0 2px 8px rgba(63,69,81,0.16)",
+          margin: "1.6em 0 0.9em",
+          overflow: "hidden",
+          borderRadius: 8,
+        }}
+      >
+        <iframe
+          loading="lazy"
+          src="https://www.canva.com/design/DAG051eSF8U/Sv1RhQFlSYNTxmvrcklstg/view?embed"
+          allow="fullscreen"
+          allowFullScreen
+          title="Canva: White Gray Modern Pixel Dino Trivia Game Night Presentation"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            border: "none",
+            margin: 0,
+            padding: 0,
+          }}
+        />
+      </div>
+
+      <p
+        style={{
+          textAlign: "center",
+          marginTop: "0.5em",
+          fontFamily: "sans-serif",
+          fontSize: "0.9em",
+          color: "#555",
+        }}
+      >
+        <a
+          href="https://www.canva.com/design/DAG051eSF8U/Sv1RhQFlSYNTxmvrcklstg/view?utm_content=DAG051eSF8U&utm_campaign=designshare&utm_medium=embeds&utm_source=link"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{ color: "#2a7ae2", textDecoration: "none" }}
+        >
+    
+        </a>{" "}
+        
+      </p>
+    </div>
+  );
 
   return (
     <div className="elementary-course">
@@ -34,6 +88,11 @@ const ElementaryCourse = ({ onLogout }) => {
         </div>
       </nav>
 
+      {/* ✅ Canva Game Embed */}
+      <section className="course-embed">
+        <CanvaEmbed />
+      </section>
+
       {/* Course Content */}
       <header className="course-header">
         <p>
@@ -52,7 +111,7 @@ const ElementaryCourse = ({ onLogout }) => {
       </section>
 
       <section className="course-topic">
-        <h2>☀️ The Sun’s Power</h2>
+        <h2>☀ The Sun’s Power</h2>
         <p>
           The Sun releases huge amounts of energy constantly. Sometimes it sends
           bursts called solar flares. Scientists study these to keep astronauts
@@ -93,14 +152,13 @@ const ElementaryCourse = ({ onLogout }) => {
       </section>
 
       <footer className="course-footer">
-        <button className="next-button">➡️ Next Adventure</button>
+        <button className="next-button">➡ Next Adventure</button>
       </footer>
+
       {showLevelUp && (
         <LevelUpModal
           onClose={() => setShowLevelUp(false)}
-          onLevelUp={() => {
-            navigate("/middle");
-          }}
+          onLevelUp={() => navigate("/middle")}
         />
       )}
     </div>

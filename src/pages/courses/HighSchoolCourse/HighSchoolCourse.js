@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import LevelUpModal from "./LevelUpModal";
 import AdvancedCourseModal from "./AdvancedCourseModal";
@@ -7,12 +7,61 @@ import "./HighSchoolCourse.css";
 const HighSchoolCourse = ({ onLogout }) => {
   const [showLevelUp, setShowLevelUp] = useState(false);
   const [showAdvancedModal, setShowAdvancedModal] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const videoRef = useRef(null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     if (onLogout) onLogout();
     navigate("/login");
   };
+
+  // Helpers for controls
+  const playVideo = useCallback(async () => {
+    try {
+      await videoRef.current?.play();
+      setIsPlaying(true);
+    } catch (e) {
+      // Autoplay might be blocked if not muted; we keep it muted by default
+      console.warn("Play blocked:", e);
+    }
+  }, []);
+
+  const pauseVideo = () => {
+    videoRef.current?.pause();
+    setIsPlaying(false);
+  };
+
+  const stopVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setIsPlaying(false);
+    }
+  };
+
+  const replayVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      playVideo();
+    }
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  };
+
+  // Try autoplay on mount (muted for browser policy)
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      playVideo();
+    }
+  }, [playVideo]);
 
   return (
     <div className="high-school-course">
@@ -30,6 +79,42 @@ const HighSchoolCourse = ({ onLogout }) => {
           </button>
         </div>
       </nav>
+
+      {/* 🎥 Video Section */}
+      <div className="course-video">
+        <div className="video-frame">
+          <video
+            ref={videoRef}
+            // If your file is in the same folder as this component:
+            src={require("./Highschool.mp4")}
+            // Alternative (recommended): import at top
+            // import HighschoolVideo from "./Highschool.mp4";
+            // src={HighschoolVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="intro-video"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
+        </div>
+
+        {/* Custom Controls */}
+        <div className="video-controls">
+          {isPlaying ? (
+            <button className="vc-btn" onClick={pauseVideo}>⏸ Pause</button>
+          ) : (
+            <button className="vc-btn" onClick={playVideo}>▶ Play</button>
+          )}
+          <button className="vc-btn" onClick={stopVideo}>⏹ Stop</button>
+          <button className="vc-btn" onClick={replayVideo}>🔁 Replay</button>
+          <button className="vc-btn" onClick={toggleMute}>
+            {isMuted ? "🔊 Unmute" : "🔇 Mute"}
+          </button>
+        </div>
+      </div>
+
       {/* Course Header */}
       <header className="course-header">
         <p>
@@ -40,7 +125,7 @@ const HighSchoolCourse = ({ onLogout }) => {
 
       {/* Course Topics */}
       <section className="course-topic">
-        <h2>☀️ Space Weather Fundamentals</h2>
+        <h2>☀ Space Weather Fundamentals</h2>
         <p>
           Space weather includes solar flares, coronal mass ejections (CMEs),
           solar wind, and particle events. These phenomena interact with Earth's
@@ -60,7 +145,7 @@ const HighSchoolCourse = ({ onLogout }) => {
       </section>
 
       <section className="course-topic">
-        <h2>🛰️ Real-World Impacts</h2>
+        <h2>🛰 Real-World Impacts</h2>
         <ul>
           <li>Satellite damage or temporary shutdowns</li>
           <li>Aviation communication disruptions, especially near the poles</li>
@@ -93,10 +178,10 @@ const HighSchoolCourse = ({ onLogout }) => {
 
       {/* Footer */}
       <footer className="course-footer">
-        <button className="next-button">➡️ Next Adventure</button>
+        <button className="next-button">➡ Next Adventure</button>
       </footer>
 
-      {/* Level Up Modal */}
+      {/* Modals */}
       {showLevelUp && (
         <LevelUpModal
           onClose={() => setShowLevelUp(false)}
@@ -107,7 +192,6 @@ const HighSchoolCourse = ({ onLogout }) => {
         />
       )}
 
-      {/* Advanced Course Modal */}
       {showAdvancedModal && (
         <AdvancedCourseModal
           onClose={() => setShowAdvancedModal(false)}

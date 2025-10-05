@@ -1,12 +1,28 @@
-// src/pages/courses/MiddleSchoolCourse/MiddleSchoolCourse.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import LevelUpModal from "./LevelUpModal";
 import "./MiddleSchoolCourse.css";
+import { initSpaceGame } from "./SpaceGame/public/src/main-vanilla.js";
 
 const MiddleSchoolCourse = ({ onLogout }) => {
   const [showLevelUp, setShowLevelUp] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Optional: Load CSS dynamically
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href = "/SpaceGame/src/style.css";
+    document.head.appendChild(link);
+
+    // Initialize the game directly
+    initSpaceGame("game-container");
+
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
+
 
   const handleLogout = () => {
     if (onLogout) onLogout();
@@ -15,7 +31,6 @@ const MiddleSchoolCourse = ({ onLogout }) => {
 
   return (
     <div className="middle-school-course">
-      {/* Navigation Bar */}
       <nav className="course-nav">
         <div className="nav-left">
           <h2>🌌 Space Scientist Mission</h2>
@@ -29,6 +44,13 @@ const MiddleSchoolCourse = ({ onLogout }) => {
           </button>
         </div>
       </nav>
+
+      <section
+        id="spacegame-container"
+        style={{ width: "100%", minHeight: "500px", position: "relative" }}
+      >
+        <div id="game-container"></div>
+      </section>
 
       <header className="course-header">
         <p>
@@ -76,22 +98,16 @@ const MiddleSchoolCourse = ({ onLogout }) => {
       <section className="course-topic">
         <h2>💡 Mini Challenges!</h2>
         <ul>
-          <li>
-            Track the current solar flare activity using NASA’s online tools.
-          </li>
-          <li>
-            Research a historical space weather event and its impact on
-            technology.
-          </li>
-          <li>
-            Predict when auroras might be visible based on solar activity!
-          </li>
+          <li>Track the current solar flare activity using NASA’s online tools.</li>
+          <li>Research a historical space weather event and its impact on technology.</li>
+          <li>Predict when auroras might be visible based on solar activity!</li>
         </ul>
       </section>
 
       <footer className="course-footer">
         <button className="next-button">➡️ Next Adventure</button>
       </footer>
+
       {showLevelUp && (
         <LevelUpModal
           onClose={() => setShowLevelUp(false)}
