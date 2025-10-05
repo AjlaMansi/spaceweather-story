@@ -9,20 +9,8 @@ const MiddleSchoolCourse = ({ onLogout }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Optional: Load CSS dynamically
-    const link = document.createElement("link");
-    link.rel = "stylesheet";
-    link.href = "/SpaceGame/src/style.css";
-    document.head.appendChild(link);
-
-    // Initialize the game directly
     initSpaceGame("game-container");
-
-    return () => {
-      document.head.removeChild(link);
-    };
   }, []);
-
 
   const handleLogout = () => {
     if (onLogout) onLogout();
@@ -45,13 +33,50 @@ const MiddleSchoolCourse = ({ onLogout }) => {
         </div>
       </nav>
 
+      {/* 🎮 Game Section */}
       <section
         id="spacegame-container"
-        style={{ width: "100%", minHeight: "500px", position: "relative" }}
+        style={{
+          width: "100%",
+          minHeight: "500px",
+          position: "relative",
+          marginBottom: "0", // 🔥 remove gap below game
+        }}
       >
         <div id="game-container"></div>
       </section>
 
+      {/* 🌌 Story Text - now tightly attached */}
+      <section
+        className="game-story"
+        style={{
+          textAlign: "center",
+          marginTop: "-0.2rem", // 🔥 pull text upward
+          paddingTop: "4px",
+          transform: "translateY(-10px)", // 🔥 lift story closer to game
+        }}
+      >
+        <h3 style={{ color: "#7dd3fc", marginBottom: "4px" }}>
+          🧑‍🚀 Mission Log
+        </h3>
+        <p
+          style={{
+            color: "#e0f2fe",
+            fontSize: "1rem",
+            lineHeight: "1.4",
+            maxWidth: "700px",
+            margin: "0 auto",
+          }}
+        >
+          Mission Log: Day 43 — still orbiting above Earth.
+          <br />
+          Solar activity seems calm... wait — sensors picking up a surge!
+          <br />
+          A solar storm? Time to monitor its effects on Earth’s magnetosphere.
+          <br />
+          Let’s stabilize communications and watch the auroras form below. 🌈
+        </p>
+      </section>
       <header className="course-header">
         <p>
           Welcome young explorers! 🛰️ Learn about solar flares, CMEs, and how
@@ -98,9 +123,16 @@ const MiddleSchoolCourse = ({ onLogout }) => {
       <section className="course-topic">
         <h2>💡 Mini Challenges!</h2>
         <ul>
-          <li>Track the current solar flare activity using NASA’s online tools.</li>
-          <li>Research a historical space weather event and its impact on technology.</li>
-          <li>Predict when auroras might be visible based on solar activity!</li>
+          <li>
+            Track the current solar flare activity using NASA’s online tools.
+          </li>
+          <li>
+            Research a historical space weather event and its impact on
+            technology.
+          </li>
+          <li>
+            Predict when auroras might be visible based on solar activity!
+          </li>
         </ul>
       </section>
 

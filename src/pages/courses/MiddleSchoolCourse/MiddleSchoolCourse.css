@@ -144,3 +144,24 @@
     font-size: 1rem;
   }
 }
+.game-story {
+  color: #fff;
+  background: linear-gradient(180deg, #061328 0%, #02101e 100%);
+  padding: 20px;
+  border-radius: 12px;
+  width: 80%;
+  margin: 0 auto 2rem auto;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.game-story h3 {
+  color: #7dd3fc;
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.game-story p {
+  line-height: 1.6;
+  font-size: 1rem;
+  white-space: pre-line;
+}
