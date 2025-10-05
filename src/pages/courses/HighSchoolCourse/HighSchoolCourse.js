@@ -1,30 +1,151 @@
-import React from 'react';
-import './HighSchoolCourse.css';
+import React, { useRef, useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import LevelUpModal from "./LevelUpModal";
+import AdvancedCourseModal from "./AdvancedCourseModal";
+import "./HighSchoolCourse.css";
 
-const HighSchoolCourse = () => {
+const HighSchoolCourse = ({ onLogout }) => {
+  const [showLevelUp, setShowLevelUp] = useState(false);
+  const [showAdvancedModal, setShowAdvancedModal] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+
+  const videoRef = useRef(null);
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    if (onLogout) onLogout();
+    navigate("/login");
+  };
+
+  // Helpers for controls
+  const playVideo = useCallback(async () => {
+    try {
+      await videoRef.current?.play();
+      setIsPlaying(true);
+    } catch (e) {
+      // Autoplay might be blocked if not muted; we keep it muted by default
+      console.warn("Play blocked:", e);
+    }
+  }, []);
+
+  const pauseVideo = () => {
+    videoRef.current?.pause();
+    setIsPlaying(false);
+  };
+
+  const stopVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setIsPlaying(false);
+    }
+  };
+
+  const replayVideo = () => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = 0;
+      playVideo();
+    }
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !videoRef.current.muted;
+    setIsMuted(videoRef.current.muted);
+  };
+
+  // Try autoplay on mount (muted for browser policy)
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      playVideo();
+    }
+  }, [playVideo]);
+
   return (
     <div className="high-school-course">
+      {/* Top Navigation */}
+      <nav className="course-nav">
+        <div className="nav-left">
+          <h2>🚀 Advanced Space Weather Mission</h2>
+        </div>
+        <div className="nav-right">
+          <button className="nav-btn" onClick={() => setShowLevelUp(true)}>
+            🎓 Level Up
+          </button>
+          <button className="nav-btn logout" onClick={handleLogout}>
+            🚪 Log Out
+          </button>
+        </div>
+      </nav>
+
+      {/* 🎥 Video Section */}
+      <div className="course-video">
+        <div className="video-frame">
+          <video
+            ref={videoRef}
+            // If your file is in the same folder as this component:
+            src={require("./Highschool.mp4")}
+            // Alternative (recommended): import at top
+            // import HighschoolVideo from "./Highschool.mp4";
+            // src={HighschoolVideo}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="intro-video"
+            onPlay={() => setIsPlaying(true)}
+            onPause={() => setIsPlaying(false)}
+          />
+        </div>
+
+        {/* Custom Controls */}
+        <div className="video-controls">
+          {isPlaying ? (
+            <button className="vc-btn" onClick={pauseVideo}>⏸ Pause</button>
+          ) : (
+            <button className="vc-btn" onClick={playVideo}>▶ Play</button>
+          )}
+          <button className="vc-btn" onClick={stopVideo}>⏹ Stop</button>
+          <button className="vc-btn" onClick={replayVideo}>🔁 Replay</button>
+          <button className="vc-btn" onClick={toggleMute}>
+            {isMuted ? "🔊 Unmute" : "🔇 Mute"}
+          </button>
+        </div>
+      </div>
+
+      {/* Course Header */}
       <header className="course-header">
-        <h1>🚀 Advanced Space Weather Mission</h1>
-        <p>Welcome future space scientists! Learn how solar activity influences satellites, astronauts, aviation, and Earth’s technology systems.</p>
+        <p>
+          Welcome future space scientists! Learn how solar activity influences
+          satellites, astronauts, aviation, and Earth’s technology systems.
+        </p>
       </header>
 
+      {/* Course Topics */}
       <section className="course-topic">
-        <h2>☀️ Space Weather Fundamentals</h2>
+        <h2>☀ Space Weather Fundamentals</h2>
         <p>
-          Space weather includes solar flares, coronal mass ejections (CMEs), solar wind, and particle events. These phenomena interact with Earth's magnetic field, affecting communication, navigation, and power systems.
+          Space weather includes solar flares, coronal mass ejections (CMEs),
+          solar wind, and particle events. These phenomena interact with Earth's
+          magnetic field, affecting communication, navigation, and power
+          systems.
         </p>
       </section>
 
       <section className="course-topic">
         <h2>⚡ Solar Flares and CMEs in Detail</h2>
         <p>
-          Solar flares are sudden releases of energy from the Sun. CMEs are massive bursts of plasma. When directed toward Earth, they can disrupt satellites, GPS, radio communications, and even electrical grids. Understanding their behavior is crucial for mitigating risks.
+          Solar flares are sudden releases of energy from the Sun. CMEs are
+          massive bursts of plasma. When directed toward Earth, they can disrupt
+          satellites, GPS, radio communications, and even electrical grids.
+          Understanding their behavior is crucial for mitigating risks.
         </p>
       </section>
 
       <section className="course-topic">
-        <h2>🛰️ Real-World Impacts</h2>
+        <h2>🛰 Real-World Impacts</h2>
         <ul>
           <li>Satellite damage or temporary shutdowns</li>
           <li>Aviation communication disruptions, especially near the poles</li>
@@ -36,7 +157,10 @@ const HighSchoolCourse = () => {
       <section className="course-topic">
         <h2>🌌 Observing Auroras</h2>
         <p>
-          Solar activity creates beautiful auroras when charged particles hit Earth's atmosphere. You can track solar storms online and predict when auroras might be visible. This is both scientific and visually exciting!
+          Solar activity creates beautiful auroras when charged particles hit
+          Earth's atmosphere. You can track solar storms online and predict when
+          auroras might be visible. This is both scientific and visually
+          exciting!
         </p>
       </section>
 
@@ -45,13 +169,35 @@ const HighSchoolCourse = () => {
         <ul>
           <li>Research a recent solar storm and its effects on Earth.</li>
           <li>Use NASA’s space weather data to predict aurora visibility.</li>
-          <li>Discuss how technology-dependent industries prepare for space weather events.</li>
+          <li>
+            Discuss how technology-dependent industries prepare for space
+            weather events.
+          </li>
         </ul>
       </section>
 
+      {/* Footer */}
       <footer className="course-footer">
-        <button className="next-button">➡️ Next Adventure</button>
+        <button className="next-button">➡ Next Adventure</button>
       </footer>
+
+      {/* Modals */}
+      {showLevelUp && (
+        <LevelUpModal
+          onClose={() => setShowLevelUp(false)}
+          onPassed={() => {
+            setShowLevelUp(false);
+            setShowAdvancedModal(true);
+          }}
+        />
+      )}
+
+      {showAdvancedModal && (
+        <AdvancedCourseModal
+          onClose={() => setShowAdvancedModal(false)}
+          onSubscribe={() => navigate("/advanced")}
+        />
+      )}
     </div>
   );
 };

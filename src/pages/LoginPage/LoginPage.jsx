@@ -1,8 +1,11 @@
 import React, { useState } from "react";
-import "./LoginModal.css";
-import { loginUser, registerUser } from "../api"; 
-const LoginModal = ({ isOpen, onClose, onLogin }) => {
-  const [mode, setMode] = useState("login"); // 'login' or 'signup'
+import { useNavigate } from "react-router-dom";
+import { loginUser, registerUser } from "../../api";
+import "../../components/LoginModal.css";
+
+const LoginPage = ({ onLogin }) => {
+  const navigate = useNavigate();
+  const [mode, setMode] = useState("login");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [parentName, setParentName] = useState("");
@@ -11,50 +14,38 @@ const LoginModal = ({ isOpen, onClose, onLogin }) => {
   const [email, setEmail] = useState("");
   const [location, setLocation] = useState("");
 
-  if (!isOpen) return null;
+  const handleSubmit = async () => {
+    try {
+      if (mode === "login") {
+        if (!username || !password) return alert("Please enter username and password");
+        const user = await loginUser(username, password);
+        onLogin(user);
+        navigate("/"); // ✅ redirect to appropriate course
+      } else {
+        if (!parentName || !childName || !childAge || !username || !password || !email)
+          return alert("Please fill in all required fields for sign up");
 
-  
+        const newUser = await registerUser({
+          username,
+          password,
+          parentName,
+          childName,
+          childAge: Number(childAge),
+          email,
+          location,
+        });
 
-const handleSubmit = async () => {
-  try {
-    if (mode === "login") {
-      if (!username || !password) return alert("Please enter username and password");
-      
-      const user = await loginUser(username, password);
-      alert(`Welcome back, ${user.ParentName}!`);
-      onLogin(user);
-      onClose();
-    } else {
-      if (!parentName || !childName || !childAge || !username || !password || !email)
-        return alert("Please fill in all required fields for sign up");
-
-      const newUser = await registerUser({
-        username,
-        password,
-        parentName,
-        childName,
-        childAge: Number(childAge),
-        email,
-        location,
-      });
-
-      alert(`Account created for ${newUser.ChildName}!`);
-      onLogin(newUser);
-      onClose();
+        onLogin(newUser);
+        navigate("/"); // ✅ redirect after signup
+      }
+    } catch (err) {
+      alert(err || "Something went wrong, try again!");
     }
-  } catch (err) {
-    alert(err || "Something went wrong, try again!");
-  }
-};
-
-
+  };
 
   return (
     <div className="login-overlay">
       <div className="login-modal">
-        <button className="close-btn" onClick={onClose}>
-          ×
-        </button>
         <h2>{mode === "login" ? "👩‍🚀 Sign In" : "📝 Sign Up"}</h2>
 
         {mode === "signup" && (
@@ -137,4 +128,4 @@ const handleSubmit = async () => {
   );
 };
 
-export default LoginModal;
+export default LoginPage;
